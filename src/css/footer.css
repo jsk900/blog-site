@@ -1,0 +1,15 @@
+footer {
+  width: 100%;
+  height: 6%;
+  background-color: #23233b;
+}
+
+footer p {
+  color: aliceblue;
+  font-size: 1em;
+  padding: 20px;
+}
+
+footer p span {
+  font-size: 1.2em;
+}
