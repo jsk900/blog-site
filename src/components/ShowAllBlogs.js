@@ -1,48 +1,24 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
+import { Header } from './Header';
+import { Footer } from './Footer';
+import { ShowBlog } from './ShowBlog';
 
 import '../css/showBlogs.css';
 
-export const ShowAllBlogs = props => {
-  const {
-    uuid,
-    userName = 'There are no blogs to show!',
-    title,
-    content,
-    today,
-    handleDelete
-  } = props;
-
+export const ShowAllBlogs = () => {
+  const blogs = useSelector(state => state.addReducer);
   useEffect(() => {
     document.title = 'Show all Blogs';
   });
 
+  const blog = blogs.map(blog => <ShowBlog blog={blog} key={blog.uuid} />);
   return (
-    <div className="card-container">
-      <p className="blogs-p">
-        <span>User</span> {userName}
-      </p>
-      <Link
-        to={{
-          pathname: `/ShowBlog/${uuid}`,
-          state: {
-            userName: userName,
-            title: title,
-            content: content,
-            today: today
-          }
-        }}
-      >
-        <p className="blogs-p">
-          <span>Title</span> {title}
-        </p>
-      </Link>
-      <p className="blogs-p">{today}</p>
-      {userName !== 'There are no blogs to show!' ? (
-        <button className="delete-btn" onClick={handleDelete.bind(this, uuid)}>
-          Delete
-        </button>
-      ) : null}
-    </div>
+    <>
+      <Header />
+      {blog}
+      <Footer />
+    </>
   );
 };

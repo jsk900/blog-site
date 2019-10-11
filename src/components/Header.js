@@ -19,7 +19,7 @@ export const Header = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/Mapping" activeStyle={{ color: '#f78b10' }}>
+            <NavLink to="/ShowAllBlogs" activeStyle={{ color: '#f78b10' }}>
               Show all Blogs
             </NavLink>
           </li>

@@ -1,24 +1,37 @@
-import React, { useState, useEffect, useRef } from 'react';
+//React, Redux, Third party imports
+import React, { useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import uuid from 'uuid/v4';
-import { Mapping } from './Mapping';
+
+//Local imports
+import { addAction, redirectAction } from '../actions';
 import { Header } from './Header';
 import { Footer } from './Footer';
 
+//Import css
 import '../css/createBlog.css';
 
+//Create blog hook component
 export const CreateBlog = () => {
-  const [redirect, setRedirect] = useState(false);
+  const redirect = useSelector(state => state.redirectReducer);
+  const blogs = useSelector(state => state.addReducer);
+  const dispatch = useDispatch();
 
+  //Input field refs
   const refUserName = useRef();
   const refTitle = useRef();
   const refContent = useRef();
 
+  //Component mounted, create page title
   useEffect(() => {
     document.title = 'Create Blog';
   }, []);
 
+  //Form submitted. Set redirect flag. Create blog object.
   const handleSubmit = e => {
     e.preventDefault();
+    dispatch(redirectAction(true));
     const blog = {
       uuid: uuid(),
       userName: refUserName.current.value,
@@ -34,16 +47,19 @@ export const CreateBlog = () => {
 
     let tempBlogArr = [];
 
-    const blogs = JSON.parse(localStorage.getItem('blog'));
+    //Retrieve any previously created blogs from the Store. We added any blogs in LocalStorage
+    //to the Store in the Welcome Component.
     blogs ? blogs.map(blog => tempBlogArr.push(blog)) : tempBlogArr.push();
 
+    //Add new blog to LocalStorage and update the store
     tempBlogArr.push(blog);
     localStorage.setItem('blog', JSON.stringify(tempBlogArr));
-    setRedirect(() => true);
+    dispatch(addAction(tempBlogArr));
   };
 
+  //If our state redirect flag is true redirect to showAllBlogs, else show the createBlog form.
   if (redirect) {
-    return <Mapping />;
+    return <Redirect to="/ShowAllBlogs" />;
   } else {
     return (
       <>
