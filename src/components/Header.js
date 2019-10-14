@@ -1,6 +1,8 @@
+//React imports
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom'; //Used NavLink instead of Link to give us active colours
 
+//Local imports
 import '../css/header.css';
 
 export const Header = () => {

@@ -1,7 +1,10 @@
+//React imports
 import React from 'react';
 
+//Local imports
 import '../css/footer.css';
 
+//Simple dumb footer component
 export const Footer = () => {
   return (
     <footer>

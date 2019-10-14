@@ -1,27 +1,16 @@
+//React imports
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { addAction } from '../actions';
+
+//Local imports
 import { Header } from './Header';
 import { Footer } from './Footer';
-
 import '../css/welcome.css';
 
 export const Welcome = () => {
+  //Initialize title and get any blogs that may be in LocalStorage
   useEffect(() => {
     document.title = 'Welcome';
-    getLocalStorage();
-  });
-
-  const dispatch = useDispatch();
-
-  const getLocalStorage = () => {
-    let tempBlogArr = [];
-
-    //Retrieve any previously created blogs from LocalStorage
-    const blogs = JSON.parse(localStorage.getItem('blog'));
-    blogs ? blogs.map(blog => tempBlogArr.push(blog)) : tempBlogArr.push();
-    dispatch(addAction(tempBlogArr));
-  };
+  }, []);
 
   return (
     <>

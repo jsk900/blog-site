@@ -1,26 +1,32 @@
+//React imports
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { removeAction } from '../actions';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom'; //Here I'm using link as I don't care about an active colour
 
+//Local imports
+import { addAction } from '../actions';
 import '../css/showBlog.css';
 
 export const ShowBlog = props => {
-  const blogs = useSelector(state => state.addReducer);
+  //Initialize the dispatcher
   const dispatch = useDispatch();
 
-  const {
-    uuid,
-    userName = 'There are no blogs to show!',
-    title,
-    content,
-    today
-  } = props.blog;
+  //Destructuring the props
+  const { uuid, userName, title, content, today } = props.blog;
 
+  //Delete blog function
+  //First we retrieve all the blogs from local storage
+  //We filter out the blog to be deleted
+  //If there are any blogs left we replace the newly filtered array into LocalStorage
+  //If there are no blogs left after the delete we clear LocalStorage
+  //We then add to the store
   const handleDelete = () => {
-    dispatch(removeAction(uuid));
-    localStorage.clear();
-    localStorage.setItem('blog', JSON.stringify(blogs));
+    const blogs = JSON.parse(localStorage.getItem('blog'));
+    const newBlogs = blogs.filter(blog => blog.uuid !== uuid);
+    newBlogs.length > 0
+      ? localStorage.setItem('blog', JSON.stringify(newBlogs))
+      : localStorage.clear();
+    dispatch(addAction(newBlogs));
   };
 
   return (
@@ -28,6 +34,7 @@ export const ShowBlog = props => {
       <p className="blogs-p">
         <span>User</span> {userName}
       </p>
+      {/* Link to details page */}
       <Link
         to={{
           pathname: `/ShowDetail/${uuid}`,
@@ -44,11 +51,10 @@ export const ShowBlog = props => {
         </p>
       </Link>
       <p className="blogs-p">{today}</p>
-      {userName !== 'There are no blogs to show!' ? (
-        <button className="delete-btn" onClick={handleDelete}>
-          Delete
-        </button>
-      ) : null}
+
+      <button className="delete-btn" onClick={handleDelete}>
+        Delete
+      </button>
     </div>
   );
 };

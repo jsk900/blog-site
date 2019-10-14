@@ -1,3 +1,4 @@
+//Actions, Add blogs array to store
 export const addAction = blogArr => {
   return {
     type: 'ADD',
@@ -5,15 +6,10 @@ export const addAction = blogArr => {
   };
 };
 
-export const removeAction = uuid => {
+// Redirect flag to create blog or show newly created blog
+export const redirectAction = bool => {
   return {
-    type: 'REMOVE',
-    payload: uuid
-  };
-};
-
-export const redirectAction = () => {
-  return {
-    type: 'REDIRECT'
+    type: 'REDIRECT',
+    payload: bool
   };
 };

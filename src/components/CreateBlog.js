@@ -8,14 +8,15 @@ import uuid from 'uuid/v4';
 import { addAction, redirectAction } from '../actions';
 import { Header } from './Header';
 import { Footer } from './Footer';
-
-//Import css
 import '../css/createBlog.css';
 
 //Create blog hook component
 export const CreateBlog = () => {
+  //Get redirect flag from store
   const redirect = useSelector(state => state.redirectReducer);
+  //Get blogs array from store
   const blogs = useSelector(state => state.addReducer);
+  //Initialize dispatcher
   const dispatch = useDispatch();
 
   //Input field refs
@@ -47,8 +48,7 @@ export const CreateBlog = () => {
 
     let tempBlogArr = [];
 
-    //Retrieve any previously created blogs from the Store. We added any blogs in LocalStorage
-    //to the Store in the Welcome Component.
+    //Retrieve any previously created blogs from the Store.
     blogs ? blogs.map(blog => tempBlogArr.push(blog)) : tempBlogArr.push();
 
     //Add new blog to LocalStorage and update the store
